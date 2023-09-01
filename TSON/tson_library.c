@@ -43,7 +43,7 @@ void tson_object_destroy(TsonObject* obj) {
     }
 
     // Освобождение памяти для каждого ключа и значения
-    for (size_t i = 0; i < obj->size; ++i) {
+    for (size_t i = 0; i < obj->size; i++) {
         free(obj->keys[i]);
         if (obj->types[i] == TSON_OBJECT) {
             tson_object_destroy((TsonObject*)obj->values[i]);
@@ -120,7 +120,7 @@ void tson_object_set_float(TsonObject* obj, const char* key, float value) {
     if (newKey == NULL) {
         return;
     }
-
+    
     newKeys[obj->size] = newKey;
     newValues[obj->size] = malloc(sizeof(float)); // Выделение памяти под число с плавающей точкой
     *(float*)newValues[obj->size] = value;
@@ -366,7 +366,6 @@ TsonArray* tson_object_get_array(const TsonObject* obj, const char* key) {
 
     for (size_t i = 0; i < obj->size; ++i) {
         if (strcmp(obj->keys[i], key) == 0 && obj->types[i] == TSON_ARRAY) {
-            TsonArray* pizda = (TsonArray*)obj->values[i];
             return (TsonArray*)obj->values[i];
         }
     }
@@ -444,11 +443,11 @@ void tson_array_serialize_to_buffer(const TsonArray* arr, unsigned char* buffer,
         *offset += sizeof(TsonType);
 
         if (arr->types[i] == TSON_INTEGER) {
-            memcpy(buffer + *offset, &(((int*)arr->values)[i]), sizeof(int)); // Сохранение целочисленного значения
+            memcpy(buffer + *offset, arr->values[i], sizeof(int)); // Сохранение целочисленного значения
             *offset += sizeof(int);
         }
         else if (arr->types[i] == TSON_FLOAT) {
-            memcpy(buffer + *offset, &(((float*)arr->values)[i]), sizeof(float)); // Сохранение значения с плавающей точкой
+            memcpy(buffer + *offset, arr->values[i], sizeof(float)); // Сохранение значения с плавающей точкой
             *offset += sizeof(float);
         }
         else if (arr->types[i] == TSON_STRING) {
@@ -457,7 +456,7 @@ void tson_array_serialize_to_buffer(const TsonArray* arr, unsigned char* buffer,
             *offset += strSize;
         }
         else if (arr->types[i] == TSON_BOOLEAN) {
-            memcpy(buffer + *offset, &(((int*)arr->values)[i]), sizeof(int)); // Сохранение логического значения
+            memcpy(buffer + *offset, arr->values[i], sizeof(int)); // Сохранение логического значения
             *offset += sizeof(int);
         }
         else if (arr->types[i] == TSON_NULL) {
