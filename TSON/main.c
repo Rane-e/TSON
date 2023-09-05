@@ -23,7 +23,7 @@ int main() {
     tson_object_set_string(addressObj, "city", "Anytown");
 
     tson_object_set_object(tsonObj, "address", addressObj);
-    //
+    
     // Сериализация объекта в байтовый массив
     size_t serializedSize;
     unsigned char* serializedData = tson_object_serialize(tsonObj, &serializedSize);
@@ -51,8 +51,8 @@ int main() {
     printf("%d\n", tson_array_get_integer(arr, 2));
 
     // Освобождение ресурсов
-    tson_object_destroy(tsonObj);
-    tson_object_destroy(deserializedObj);
+   // tson_object_destroy(tsonObj);
+   // tson_object_destroy(deserializedObj);
     free(serializedData);
 
     return 0;

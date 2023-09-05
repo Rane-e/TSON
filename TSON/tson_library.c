@@ -376,13 +376,6 @@ TsonArray* tson_object_get_array(const TsonObject* obj, const char* key) {
 
 #pragma region Сериализация и десериализация объекта TSON
 
-
-
-
-
-
-
-
 // Метод для вычисления размера сериализованного объекта TSON
 static size_t tson_object_serialized_size(const TsonObject* obj);
 
@@ -391,17 +384,6 @@ static void tson_object_serialize_to_buffer(const TsonObject* obj, unsigned char
 
 // Метод для десериализации байтового массива в объект TSON
 static TsonObject* tson_object_deserialize_from_buffer(const unsigned char* buffer, size_t* offset);
-
-
-
-
-
-
-
-
-
-
-
 
 // Метод для вычисления размера сериализованного массива TSON
 size_t tson_array_serialized_size(const TsonArray* arr) {
@@ -511,16 +493,6 @@ static TsonArray* tson_array_deserialize_from_buffer(const unsigned char* buffer
     return arr;
 }
 
-
-
-
-
-
-
-
-
-
-
 // Сериализация объекта TSON в байтовый массив
 unsigned char* tson_object_serialize(const TsonObject* obj, size_t* size) {
     if (obj == NULL || size == NULL) {
@@ -583,6 +555,7 @@ static size_t tson_object_serialized_size(const TsonObject* obj) {
 
     return totalSize;
 }
+
 // Вспомогательный метод для сериализации объекта TSON в байтовый массив
 static void tson_object_serialize_to_buffer(const TsonObject* obj, unsigned char* buffer, size_t* offset) {
     // Сохранение количества элементов в объекте
@@ -673,7 +646,6 @@ static TsonObject* tson_object_deserialize_from_buffer(const unsigned char* buff
             tson_object_set_array(obj, key, nestedArr);
         }
     }
-
     return obj;
 }
 
